@@ -15,9 +15,7 @@ const fileReader = (file) => {
         .split(/\s/)
         .reduce((map, word) =>
         Object.assign(map, {
-            [word]: (map[word])
-            ? map[word] + 1
-            : 1,
+            [word]: (map[word]) ? map[word] + 1 : 1,
       }),
       {}
     )
