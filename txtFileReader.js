@@ -11,53 +11,49 @@ const dirPath = path.join(__dirname, 'wikipedia/Words')
  */
 const iterateFolders = () => {
     try {
-
-
         fs.readdir(dirPath, (err, folders) => {
-            if (err) return console.error(err)
+            if (err) throw err
             folders.forEach((filePath) => {
+                
                 fs.readdir(`${dirPath}/${filePath}`, (err, files) => {
-                    if (err) console.error(err)
+                    if (err) throw err
                     files.forEach(file => {
-                        // console.log(path.join(`${dirPath}/${filePath}/${file}`));
-                        const object = fileReader(path.join(`${dirPath}/${filePath}/${file}`))
-                        // console.log('object: ', object);
-
-                        // fs.readFile(`${dirPath}/${filePath}/${file}`, 'utf8', (err, text) => {
-                        //     if (err) console.err(err)
-                        //     convertToHashCodes(`${dirPath}/${filePath}/${file}`, text)
-                        // })
+                        fileReader(path.join(`${dirPath}/${filePath}/${file}`)).then((wordOccurences) => {
+                            fs.writeFile('wordCount.json', JSON.stringify(wordOccurences, null, 4), 'utf8', err => {
+                                if (err) throw err
+                                console.log('success')
+                            })
+                        })
                     })
                 })
             })
         })
     } catch (err) {
-        console.error(err)
+        throw err
     }
 }
 const fileReader = (file) => {
-    try {
+    return new Promise((resolve, reject) => {  
     let data = ''
+    let result = {}
     let readStream = fs.createReadStream(file, 'utf8')
 
     readStream.on('data', chunk => {
-        console.log('chunk: ', chunk);
         data += chunk
+        console.log(data)
     })
         .on('end', () => {
-            let result = data.replace(/[.]/g, '')
+            result = data.replace(/[.]/g, '')
                 .split(/\s/)
                 .reduce((map, word) =>
                     Object.assign(map, {
-                        [word]: (map[word]) ? map[word] + 1 : 1,
+                        [word]: (map[word]) ? map[word] + 1 : 1
                     }),
                     {}
                 )
-            return result
+            resolve(result)
         })
-    } catch (err) {
-        console.error(err)
-    }
+    })
 }
 
 iterateFolders(dirPath)
