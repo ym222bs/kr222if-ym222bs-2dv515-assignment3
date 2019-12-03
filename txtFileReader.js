@@ -6,53 +6,61 @@ const readLine = require('readline')
 const es = require('event-stream')
 const dirPath = path.join(__dirname, 'wikipedia/Words')
 
-fs.readdir(dirPath, (err, folders) => {
-    if (err) return console.error(err)
-    folders.forEach((filePath) => {
-        fs.readdir(`${dirPath}/${filePath}`, (err, files) => {
-            if (err) console.error(err)
-            files.forEach(file => {
-                // console.log(path.join(`${dirPath}/${filePath}/${file}`));
-                const object = fileReader(path.join(`${dirPath}/${filePath}/${file}`))
-                console.log('object: ', object);
+/**
+ * @param {filePath} folders iterate every file
+ */
+const iterateFolders = () => {
+    try {
 
-                // fs.readFile(`${dirPath}/${filePath}/${file}`, 'utf8', (err, text) => {
-                //     if (err) console.err(err)
-                //     convertToHashCodes(`${dirPath}/${filePath}/${file}`, text)
-                // })
+
+        fs.readdir(dirPath, (err, folders) => {
+            if (err) return console.error(err)
+            folders.forEach((filePath) => {
+                fs.readdir(`${dirPath}/${filePath}`, (err, files) => {
+                    if (err) console.error(err)
+                    files.forEach(file => {
+                        // console.log(path.join(`${dirPath}/${filePath}/${file}`));
+                        const object = fileReader(path.join(`${dirPath}/${filePath}/${file}`))
+                        // console.log('object: ', object);
+
+                        // fs.readFile(`${dirPath}/${filePath}/${file}`, 'utf8', (err, text) => {
+                        //     if (err) console.err(err)
+                        //     convertToHashCodes(`${dirPath}/${filePath}/${file}`, text)
+                        // })
+                    })
+                })
             })
         })
-    })
-})
-
+    } catch (err) {
+        console.error(err)
+    }
+}
 const fileReader = (file) => {
+    try {
     let data = ''
     let readStream = fs.createReadStream(file, 'utf8')
 
-    readStream.on('line', chunk => {
+    readStream.on('data', chunk => {
         console.log('chunk: ', chunk);
         data += chunk
     })
-    .on('end', () => {
-       let result = data.replace(/[.]/g, '')
-        .split(/\s/)
-        .reduce((map, word) =>
-        Object.assign(map, {
-            [word]: (map[word]) ? map[word] + 1 : 1,
-      }),
-      {}
-    )
-    return result
-    })
+        .on('end', () => {
+            let result = data.replace(/[.]/g, '')
+                .split(/\s/)
+                .reduce((map, word) =>
+                    Object.assign(map, {
+                        [word]: (map[word]) ? map[word] + 1 : 1,
+                    }),
+                    {}
+                )
+            return result
+        })
+    } catch (err) {
+        console.error(err)
+    }
 }
 
-// const convertToHashCodes = (path ,file) => {
-//     console.log(path)
-//     console.log('file: ', file.length);
-// }
-
-// var fs = require('fs')
-// var now = require('performance-now')
+iterateFolders(dirPath)
 
 // const file = fs.createReadStream((`C:/Users/Mosa/School/arkurs3/2dv515/assignment3/kr222if-ym222bs-2dv515-assignment3/wikipedia/Words/Games/7400_series`, 'utf8')).pipe(es.mapSync((line) => {
 //     console.log(line)
