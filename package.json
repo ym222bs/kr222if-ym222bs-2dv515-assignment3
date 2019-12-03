@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ym222bs/kr222if-ym222bs-2dv515-assignment3#readme",
   "dependencies": {
+    "event-stream": "^4.0.1",
     "express": "^4.17.1"
   }
 }
