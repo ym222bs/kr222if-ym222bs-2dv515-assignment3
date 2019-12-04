@@ -36,11 +36,11 @@ const fileReader = (file) => {
         const words = readStream.replace(/[.]/g, '').split(/\s/)
 
         const frequencyMap = {}
-        words.forEach(w  => {
-            if (!frequencyMap[w]) {
-                frequencyMap[w] = 0
+        words.forEach(word  => {
+            if (!frequencyMap[word]) {
+                frequencyMap[word] = 0
             }
-            frequencyMap[w] += 1
+            frequencyMap[word] += 1
         })
         
         return frequencyMap
