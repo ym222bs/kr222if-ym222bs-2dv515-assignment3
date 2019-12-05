@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const directoryPath = path.join(__dirname, 'wikipedia/Words')
 
 
 const stringifyArray = (result) => {
@@ -13,7 +14,6 @@ const stringifyArray = (result) => {
 
 const iterateDirectory = () => {
     const arr = []
-    const directoryPath = path.join(__dirname, 'wikipedia/Words')
     fs.readdir(directoryPath, function (err, files) {
         if (err) console.log('Unable to scan directory: ' + err)
 
@@ -22,9 +22,10 @@ const iterateDirectory = () => {
             filePathArray.forEach(filestring => {
                 let eachArticle = {}
                 eachArticle[filestring] = fileReader(path.join(`${directoryPath}/${filestring}`))
-                arr.push(obj)
+                arr.push(eachArticle)
             })
         })
+        console.log('arr: ', arr);
         stringifyArray(arr)
     })
 }
