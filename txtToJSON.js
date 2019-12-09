@@ -12,20 +12,20 @@ const stringifyArray = (result) => {
 
 
 const iterateDirectory = () => {
-    const arr = []
+    // const arr = []
     const directoryPath = path.join(__dirname, 'wikipedia/Words')
     fs.readdir(directoryPath, function (err, files) {
         if (err) console.log('Unable to scan directory: ' + err)
 
+        let obj = {}
         files.forEach(async function (file) {
             let filePathArray = file.split(' ')
             filePathArray.forEach(filestring => {
-                let obj = {}
                 obj[filestring] = fileReader(path.join(`${directoryPath}/${filestring}`))
-                arr.push(obj)
+                // arr.push(obj)
             })
         })
-        stringifyArray(arr)
+        stringifyArray(obj)
     })
 }
 
