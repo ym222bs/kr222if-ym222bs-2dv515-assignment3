@@ -63,4 +63,8 @@ const fileReader = (file) => {
 
 // console.log(iterateDirectory())
 
+<<<<<<< HEAD
 iterateDirectory()
+=======
+iterateDirectory()
+>>>>>>> 72335dbc15821e34caf04756e48fdbdc2d95d60c
