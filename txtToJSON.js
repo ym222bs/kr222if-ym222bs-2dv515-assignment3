@@ -54,4 +54,3 @@ const fileReader = (file) => {
 // console.log(iterateDirectory())
 
 iterateDirectory()
-

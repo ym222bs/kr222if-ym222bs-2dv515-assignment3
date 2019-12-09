@@ -6,6 +6,8 @@ const readLine = require('readline')
 const es = require('event-stream')
 const dirPath = path.join(__dirname, 'wikipedia/Words')
 
+
+
 /**
  * @param {filePath} folders iterate every file
  */
