@@ -18,7 +18,7 @@ const iterateFolders = () => {
                 fs.readdir(`${dirPath}/${filePath}`, (err, files) => {
                     if (err) throw err
                     files.forEach(file => {
-                        fileReader(path.join(`${dirPath}/${filePath}/${file}`)).then((wordOccurences) => {
+                       const hej = fileReader(path.join(`${dirPath}/${filePath}/${file}`)).then((wordOccurences) => {
                             fs.writeFile('wordCount.json', JSON.stringify(wordOccurences, null, 4), 'utf8', err => {
                                 if (err) throw err
                                 console.log('success')
@@ -40,19 +40,36 @@ const fileReader = (file) => {
 
     readStream.on('data', chunk => {
         data += chunk
-        console.log(data)
+        // console.log(data)
     })
         .on('end', () => {
-            result = data.replace(/[.]/g, '')
-                .split(/\s/)
-                .reduce((map, word) =>
-                    Object.assign(map, {
-                        [word]: (map[word]) ? map[word] + 1 : 1
-                    }),
-                    {}
-                )
+
+            var wordsArray = data.split(/\s+/)
+
+            var result = {}
+
+            wordsArray.forEach(function (key) {
+              if (result.hasOwnProperty(key)) {
+                result[key]++
+              } else {
+                result[key] = 1
+              }
+            })
+            // console.log(result)
             resolve(result)
+
+            return result
+
+            // result = data.replace(/[.]/g, '')
+            //     .split(/\s/)
+            //     .reduce((map, word) =>
+            //         Object.assign(map, {
+            //             [word]: (map[word]) ? map[word] + 1 : 1
+            //         }),
+            //         {}
+            //     )
         })
+        // return 
     })
 }
 

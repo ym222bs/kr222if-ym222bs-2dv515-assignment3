@@ -20,8 +20,8 @@ const iterateDirectory = () => {
         files.forEach(async function (file) {
             let filePathArray = file.split(' ')
             filePathArray.forEach(filestring => {
-                let eachArticle = {}
-                eachArticle[filestring] = fileReader(path.join(`${directoryPath}/${filestring}`))
+                let obj = {}
+                obj[filestring] = fileReader(path.join(`${directoryPath}/${filestring}`))
                 arr.push(obj)
             })
         })
@@ -37,22 +37,13 @@ const fileReader = (file) => {
 
         const frequencyMap = {}
         words.forEach(word  => {
+            if(word === '') return null
             if (!frequencyMap[word]) {
                 frequencyMap[word] = 0
             }
             frequencyMap[word] += 1
         })
-        
         return frequencyMap
-
-    // Wiie
-    // const map = words.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
-    
-    // let map = new Map([...new Set(words)].map(
-    //     x => [x, words.filter(y => y === x).length]
-    // ))
-    // console.log(map)
-
     } catch (error) {
         console.log(error)
     }
@@ -63,3 +54,4 @@ const fileReader = (file) => {
 // console.log(iterateDirectory())
 
 iterateDirectory()
+
