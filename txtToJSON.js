@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const directoryPath = path.join(__dirname, 'wikipedia/Words')
 
 
 const stringifyArray = (result) => {
@@ -14,18 +13,18 @@ const stringifyArray = (result) => {
 
 const iterateDirectory = () => {
     const arr = []
+    const directoryPath = path.join(__dirname, 'wikipedia/Words')
     fs.readdir(directoryPath, function (err, files) {
         if (err) console.log('Unable to scan directory: ' + err)
 
         files.forEach(async function (file) {
             let filePathArray = file.split(' ')
             filePathArray.forEach(filestring => {
-                let eachArticle = {}
-                eachArticle[filestring] = fileReader(path.join(`${directoryPath}/${filestring}`))
-                arr.push(eachArticle)
+                let obj = {}
+                obj[filestring] = fileReader(path.join(`${directoryPath}/${filestring}`))
+                arr.push(obj)
             })
         })
-        console.log('arr: ', arr);
         stringifyArray(arr)
     })
 }
@@ -38,22 +37,13 @@ const fileReader = (file) => {
 
         const frequencyMap = {}
         words.forEach(word  => {
+            if(word === '') return null
             if (!frequencyMap[word]) {
                 frequencyMap[word] = 0
             }
             frequencyMap[word] += 1
         })
-        
         return frequencyMap
-
-    // Wiie
-    // const map = words.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map())
-    
-    // let map = new Map([...new Set(words)].map(
-    //     x => [x, words.filter(y => y === x).length]
-    // ))
-    // console.log(map)
-
     } catch (error) {
         console.log(error)
     }
