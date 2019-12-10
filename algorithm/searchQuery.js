@@ -7,8 +7,7 @@ const iterateWord = (query) => {
             pagesArr.push([key, file[key][query]])
         }
     })
-    return pagesArr
+    return pagesArr.sort((a, b) => b[1] - a[1]).splice(0, 5)
 }
 
-const pagesArr = iterateWord('java')
-console.log('pagesArr: ', pagesArr);
+module.exports = iterateWord
