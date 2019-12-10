@@ -16,14 +16,13 @@ const iterateFolders = () => {
         fs.readdir(dirPath, (err, folders) => {
             if (err) throw err
             folders.forEach((filePath) => {
-                
                 fs.readdir(`${dirPath}/${filePath}`, (err, files) => {
                     if (err) throw err
                     files.forEach(file => {
-                       const hej = fileReader(path.join(`${dirPath}/${filePath}/${file}`)).then((wordOccurences) => {
+                        fileReader(path.join(`${dirPath}/${filePath}/${file}`)).then((wordOccurences) => {
                             fs.writeFile('wordCount.json', JSON.stringify(wordOccurences, null, 4), 'utf8', err => {
                                 if (err) throw err
-                                console.log('success')
+                                
                             })
                         })
                     })
@@ -37,41 +36,30 @@ const iterateFolders = () => {
 const fileReader = (file) => {
     return new Promise((resolve, reject) => {  
     let data = ''
-    let result = {}
+    
     let readStream = fs.createReadStream(file, 'utf8')
 
     readStream.on('data', chunk => {
         data += chunk
-        // console.log(data)
     })
-        .on('end', () => {
-
-            var wordsArray = data.split(/\s+/)
-
-            var result = {}
-
-            wordsArray.forEach(function (key) {
-              if (result.hasOwnProperty(key)) {
-                result[key]++
-              } else {
-                result[key] = 1
-              }
-            })
-            // console.log(result)
-            resolve(result)
-
-            return result
-
-            // result = data.replace(/[.]/g, '')
-            //     .split(/\s/)
-            //     .reduce((map, word) =>
-            //         Object.assign(map, {
-            //             [word]: (map[word]) ? map[word] + 1 : 1
-            //         }),
-            //         {}
-            //     )
+    readStream
+        .on('error', (err) => {
+            reject(err)
         })
-        // return 
+    readStream
+        .on('end', () => {
+            let result = {}
+            const lines = data.split(' ').filter(e => e.trim() != '')
+            console.log('lines: ', lines);
+            // for (let i = 0; i < lines.length; i++) {
+            //     if (result[lines[i]] === undefined) {
+            //         result[lines[i]] = 1
+            //     } else {
+            //         result[lines[i]] += 1
+            //     }
+            // }
+            resolve(result)
+        })
     })
 }
 
