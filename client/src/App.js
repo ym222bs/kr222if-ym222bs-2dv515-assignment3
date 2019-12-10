@@ -1,8 +1,10 @@
 import React from 'react';
+import UserQuery from './components/UserQuery';
 
 function App() {
   return (
-    <div className="App">
+    <div className="container">
+      <UserQuery />
     </div>
   )
 }
