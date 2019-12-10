@@ -6,18 +6,19 @@ const SearchQuery = () => {
     const [query, setQuery] = useState('')
     const [data, setData] = useState('')
 
-    const chosenClusterCount = (e) => {
+    const searchQueryValue = (e) => {
         setQuery(e.target.value)
     }
 
     const fetchData = async (e) => {
         e.preventDefault()
         try {
-            // let query = 'hej'
             const response = await axios.get(`/content-based/${query}`)
             console.log(response)
-            // setData(response.data)
+            setData(response.data)
         } catch (err) {
+            setQuery('')
+            setData('')
             console.log(err)
         }
     }
@@ -27,38 +28,33 @@ const SearchQuery = () => {
 
     const handleEnterKey = (e) => {
         if (e.key === 'Enter') {
-            fetchData()
+            fetchData(e)
         }
     }
     return (
         <Fragment>
             <form className='form-group'>
                 <img className='mb-3' src={image} onClick={pageReload} />
-                <input type='text' className='form-control' onKeyPress={handleEnterKey} />
-                <button className='btn btn-primary p-2 mt-2' type='submit' onClick={chosenClusterCount}> Shmoogle</button>
+                <input type='text' className='form-control' onChange={searchQueryValue} onKeyPress={handleEnterKey} />
+                <button className='btn btn-primary p-2 mt-2' type='submit' onClick={(e) => fetchData(e)}> Shmoogle</button>
             </form>
-            <h2>Basic Table</h2>
-            <p>Bla</p>            
-                    { data && 
-                        data.map(e => {
-                                e.map((item, i) => {
-                            // <table className='table'>
-                            //     <thead>
-                            //     <tr>
-                            //         <th>Link</th>
-                            //         <th>Score</th>
-                            //         <th>Content</th>
-                            //     </tr>
-                            //     </thead>
-                            //     <tbody key={`${item} ${i}`}>
-                            //     <tr>
-                            //         <td>{item}</td>
-                            //     </tr>
-                            //     </tbody>
-                            // </table>
-                            })
-                        })
-                    }
+            { data ? <table className='table'>      
+                        <thead className='thead-light'>
+                            <tr>
+                                <th scope='col'>Link</th>
+                                <th scope='col'>Content</th>
+                            </tr>
+                        </thead>
+                        { data.map((item, i) => (
+                        <tbody key={`${i}`}>
+                            <tr>
+                                <th>{item[0]}</th>
+                                <td>{item[1]}</td>
+                            </tr>
+                        </tbody>
+                        ))}
+                    </table>
+                        : null }
         </Fragment>
     )
 }
