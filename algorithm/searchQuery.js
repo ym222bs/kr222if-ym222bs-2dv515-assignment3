@@ -7,6 +7,8 @@ const iterateWord = (query) => {
             pagesArr.push([key, file[key][query]])
         }
     })
+    return pagesArr
 }
 
-iterateWord('java')
+const pagesArr = iterateWord('java')
+console.log('pagesArr: ', pagesArr);
