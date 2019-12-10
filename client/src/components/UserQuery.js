@@ -3,17 +3,17 @@ import image from '../img/shmoogle_img.png'
 import axios from 'axios'
 
 const SearchQuery = () => {
-    const [data, setData] = useState(null)
-    const [clusters, setClusters] = useState('')
+    const [query, setQuery] = useState('')
+    const [data, setData] = useState('')
 
     const chosenClusterCount = (e) => {
-        setClusters(e.target.value)
+        setQuery(e.target.value)
     }
 
     const fetchData = async (e) => {
         e.preventDefault()
         try {
-            let query = 'hej'
+            // let query = 'hej'
             const response = await axios.get(`/content-based/${query}`)
             console.log(response)
             // setData(response.data)
@@ -30,20 +30,36 @@ const SearchQuery = () => {
             fetchData()
         }
     }
-
     return (
-        <div className="form-group">
-            <img src={image} onClick={pageReload} />
-            <input type="text" className="form-control" id="usr" />
-
-
-        {/* { data && 
-            data.map(e => {
-                
-            })
-        } */}
-        </div>
-
+        <Fragment>
+            <form className='form-group'>
+                <img className='mb-3' src={image} onClick={pageReload} />
+                <input type='text' className='form-control' onKeyPress={handleEnterKey} />
+                <button className='btn btn-primary p-2 mt-2' type='submit' onClick={chosenClusterCount}> Shmoogle</button>
+            </form>
+            <h2>Basic Table</h2>
+            <p>Bla</p>            
+                    { data && 
+                        data.map(e => {
+                                e.map((item, i) => {
+                            // <table className='table'>
+                            //     <thead>
+                            //     <tr>
+                            //         <th>Link</th>
+                            //         <th>Score</th>
+                            //         <th>Content</th>
+                            //     </tr>
+                            //     </thead>
+                            //     <tbody key={`${item} ${i}`}>
+                            //     <tr>
+                            //         <td>{item}</td>
+                            //     </tr>
+                            //     </tbody>
+                            // </table>
+                            })
+                        })
+                    }
+        </Fragment>
     )
 }
 
