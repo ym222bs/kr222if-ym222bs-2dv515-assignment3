@@ -36,9 +36,9 @@ const SearchQuery = () => {
             <form className='form-group'>
                 <img className='mb-3' src={image} onClick={pageReload} />
                 <input type='text' className='form-control' onChange={searchQueryValue} onKeyPress={handleEnterKey} />
-                <button className='btn btn-primary p-2 mt-2' type='submit' onClick={(e) => fetchData(e)}> Shmoogle</button>
+                <button className='btn btn-primary p-2 mt-2 btn-lg btn-block' type='submit' onClick={(e) => fetchData(e)}> Shmoogle</button>
             </form>
-            { data ? <table className='table'>      
+            { data ? <table className='table mt-5'>      
                         <thead className='thead-light'>
                             <tr>
                                 <th scope='col'>Link</th>
