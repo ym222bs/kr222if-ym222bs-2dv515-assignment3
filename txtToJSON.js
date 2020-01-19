@@ -12,7 +12,6 @@ const stringifyArray = (result) => {
 
 
 const iterateDirectory = () => {
-    // const arr = []
     const directoryPath = path.join(__dirname, 'wikipedia/Words')
     fs.readdir(directoryPath, function (err, files) {
         if (err) console.log('Unable to scan directory: ' + err)
@@ -22,7 +21,6 @@ const iterateDirectory = () => {
             let filePathArray = file.split(' ')
             filePathArray.forEach(filestring => {
                 obj[filestring] = fileReader(path.join(`${directoryPath}/${filestring}`))
-                // arr.push(obj)
             })
         })
         stringifyArray(obj)

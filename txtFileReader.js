@@ -22,7 +22,6 @@ const iterateFolders = () => {
                         fileReader(path.join(`${dirPath}/${filePath}/${file}`)).then((wordOccurences) => {
                             fs.writeFile('wordCount.json', JSON.stringify(wordOccurences, null, 4), 'utf8', err => {
                                 if (err) throw err
-                                
                             })
                         })
                     })

@@ -1,5 +1,5 @@
-import React from 'react';
-import UserQuery from './components/UserQuery';
+import React from 'react'
+import UserQuery from './components/UserQuery'
 
 function App() {
   return (
@@ -9,4 +9,4 @@ function App() {
   )
 }
 
-export default App;
+export default App
